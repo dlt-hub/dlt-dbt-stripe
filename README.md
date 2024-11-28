@@ -118,7 +118,7 @@ for data model which can be further modified as required.
 
 1. The schema of data modelled above using dlt-dbt-generator:
     
-   ![picture1](https://storage.googleapis.com/dlt-blog-images/stripe-dlt-dbt-package.png)
+   ![picture1](https://storage.googleapis.com/dlt-blog-images/dbdia_stripe_dimensional_model.png)
 
 > ⚠️ **Note:**
 > 
