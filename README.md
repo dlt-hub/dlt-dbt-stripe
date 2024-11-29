@@ -124,7 +124,7 @@ for data model which can be further modified as required.
 > 
 > Please note that this is a starting template for your data model and is not the final product. It is advised to customize the data model as per your needs.
 
-Here's the link to the DB diagram: [link](https://dbdiagram.io/d/stripe-dlt-dbt-package-66fe084dfb079c7ebd2946fd).
+Here's the link to the DB diagram: [link](https://dbdiagram.io/d/stripe_dlt_dbt_v1-5-6749962ae9daa85aca20487d).
 
 #### Optional: Advanced Usage (Generator and Licensing)
 
