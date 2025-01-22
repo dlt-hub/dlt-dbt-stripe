@@ -13,22 +13,18 @@ sources:
       - name: invoice
       - name: balance_transaction
       - name: balance_transaction__fee_details
-      - name: event__data__object__available
-      - name: event__data__object__pending
       - name: event__data__object__discounts
       - name: event__data__object__lines__data
       - name: event__data__object__lines__data__discount_amounts
-      - name: event__data__object__lines__data__pretax_credit_amounts
       - name: event__data__object__total_discount_amounts
-      - name: event__data__object__total_pretax_credit_amounts
+      - name: event__data__object__available
+      - name: event__data__object__pending
       - name: event__data__object__payment_method_types
       - name: event__data__object__items__data
       - name: invoice__discounts
       - name: invoice__lines__data
       - name: invoice__lines__data__discount_amounts
-      - name: invoice__lines__data__pretax_credit_amounts
       - name: invoice__total_discount_amounts
-      - name: invoice__total_pretax_credit_amounts
       - name: subscription__discounts
       - name: subscription__items__data
   - name: transformed_data
@@ -56,6 +52,8 @@ models:
       - name: subscription
         columns:
           - name: id
+            tests:
+              - not_null
           - name: object
           - name: automatic_tax__enabled
           - name: billing_cycle_anchor
@@ -194,22 +192,12 @@ models:
       - name: event
         columns:
           - name: id
+            tests:
+              - not_null
           - name: object
           - name: api_version
           - name: created
           - name: data__object__object
-          - name: data__object__livemode
-          - name: livemode
-          - name: pending_webhooks
-          - name: type
-          - name: _dlt_load_id
-            tests:
-              - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
-          - name: data__object__id
           - name: data__object__account_country
           - name: data__object__amount_due
           - name: data__object__amount_paid
@@ -217,10 +205,8 @@ models:
           - name: data__object__amount_shipping
           - name: data__object__attempt_count
           - name: data__object__attempted
-          - name: data__object__auto_advance
           - name: data__object__automatic_tax__enabled
           - name: data__object__billing_reason
-          - name: data__object__charge
           - name: data__object__collection_method
           - name: data__object__created
           - name: data__object__currency
@@ -241,32 +227,47 @@ models:
           - name: data__object__discount__customer
           - name: data__object__discount__start
           - name: data__object__discount__subscription
-          - name: data__object__effective_at
           - name: data__object__ending_balance
-          - name: data__object__hosted_invoice_url
-          - name: data__object__invoice_pdf
           - name: data__object__issuer__type
           - name: data__object__lines__object
           - name: data__object__lines__has_more
           - name: data__object__lines__total_count
           - name: data__object__lines__url
-          - name: data__object__number
+          - name: data__object__livemode
+          - name: data__object__next_payment_attempt
           - name: data__object__paid
           - name: data__object__paid_out_of_band
-          - name: data__object__payment_intent
           - name: data__object__period_end
           - name: data__object__period_start
           - name: data__object__post_payment_credit_notes_amount
           - name: data__object__pre_payment_credit_notes_amount
           - name: data__object__starting_balance
           - name: data__object__status
-          - name: data__object__status_transitions__finalized_at
-          - name: data__object__status_transitions__paid_at
           - name: data__object__subscription
           - name: data__object__subtotal
           - name: data__object__subtotal_excluding_tax
           - name: data__object__total
           - name: data__object__total_excluding_tax
+          - name: livemode
+          - name: pending_webhooks
+          - name: type
+          - name: _dlt_load_id
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
+          - name: data__object__id
+          - name: data__object__auto_advance
+          - name: data__object__charge
+          - name: data__object__effective_at
+          - name: data__object__hosted_invoice_url
+          - name: data__object__invoice_pdf
+          - name: data__object__number
+          - name: data__object__payment_intent
+          - name: data__object__status_transitions__finalized_at
+          - name: data__object__status_transitions__paid_at
           - name: data__object__webhooks_delivered_at
           - name: data__previous_attributes__amount_paid
           - name: data__previous_attributes__amount_remaining
@@ -349,10 +350,11 @@ models:
           - name: data__previous_attributes__current_period_start
           - name: data__previous_attributes__latest_invoice
           - name: data__object__automatically_finalizes_at
-          - name: data__object__next_payment_attempt
       - name: invoice
         columns:
           - name: id
+            tests:
+              - not_null
           - name: object
           - name: account_country
           - name: amount_due
@@ -423,6 +425,8 @@ models:
       - name: balance_transaction
         columns:
           - name: id
+            tests:
+              - not_null
           - name: object
           - name: amount
           - name: available_on
@@ -459,49 +463,19 @@ models:
             tests:
               - not_null
               - unique
-      - name: event__data__object__available
-        columns:
-          - name: amount
-          - name: currency
-          - name: source_types__card
-          - name: _dlt_parent_id
-            tests:
-              - not_null
-          - name: _dlt_list_idx
-            tests:
-              - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
-      - name: event__data__object__pending
-        columns:
-          - name: amount
-          - name: currency
-          - name: source_types__card
-          - name: _dlt_parent_id
-            tests:
-              - not_null
-          - name: _dlt_list_idx
-            tests:
-              - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
       - name: event__data__object__discounts
         columns:
           - name: value
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
           - name: _dlt_parent_id
             tests:
               - not_null
           - name: _dlt_list_idx
             tests:
               - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
       - name: event__data__object__lines__data
         columns:
           - name: id
@@ -511,7 +485,6 @@ models:
           - name: currency
           - name: description
           - name: discountable
-          - name: invoice
           - name: livemode
           - name: period__end
           - name: period__start
@@ -559,25 +532,11 @@ models:
             tests:
               - not_null
               - unique
+          - name: invoice
       - name: event__data__object__lines__data__discount_amounts
         columns:
           - name: amount
           - name: discount
-          - name: _dlt_parent_id
-            tests:
-              - not_null
-          - name: _dlt_list_idx
-            tests:
-              - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
-      - name: event__data__object__lines__data__pretax_credit_amounts
-        columns:
-          - name: amount
-          - name: discount
-          - name: type
           - name: _dlt_parent_id
             tests:
               - not_null
@@ -602,11 +561,26 @@ models:
             tests:
               - not_null
               - unique
-      - name: event__data__object__total_pretax_credit_amounts
+      - name: event__data__object__available
         columns:
           - name: amount
-          - name: discount
-          - name: type
+          - name: currency
+          - name: source_types__card
+          - name: _dlt_parent_id
+            tests:
+              - not_null
+          - name: _dlt_list_idx
+            tests:
+              - not_null
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
+      - name: event__data__object__pending
+        columns:
+          - name: amount
+          - name: currency
+          - name: source_types__card
           - name: _dlt_parent_id
             tests:
               - not_null
@@ -620,16 +594,16 @@ models:
       - name: event__data__object__payment_method_types
         columns:
           - name: value
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
           - name: _dlt_parent_id
             tests:
               - not_null
           - name: _dlt_list_idx
             tests:
               - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
       - name: event__data__object__items__data
         columns:
           - name: id
@@ -678,16 +652,16 @@ models:
       - name: invoice__discounts
         columns:
           - name: value
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
           - name: _dlt_parent_id
             tests:
               - not_null
           - name: _dlt_list_idx
             tests:
               - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
       - name: invoice__lines__data
         columns:
           - name: id
@@ -759,21 +733,6 @@ models:
             tests:
               - not_null
               - unique
-      - name: invoice__lines__data__pretax_credit_amounts
-        columns:
-          - name: amount
-          - name: discount
-          - name: type
-          - name: _dlt_parent_id
-            tests:
-              - not_null
-          - name: _dlt_list_idx
-            tests:
-              - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
       - name: invoice__total_discount_amounts
         columns:
           - name: amount
@@ -788,34 +747,19 @@ models:
             tests:
               - not_null
               - unique
-      - name: invoice__total_pretax_credit_amounts
-        columns:
-          - name: amount
-          - name: discount
-          - name: type
-          - name: _dlt_parent_id
-            tests:
-              - not_null
-          - name: _dlt_list_idx
-            tests:
-              - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
       - name: subscription__discounts
         columns:
           - name: value
+          - name: _dlt_id
+            tests:
+              - not_null
+              - unique
           - name: _dlt_parent_id
             tests:
               - not_null
           - name: _dlt_list_idx
             tests:
               - not_null
-          - name: _dlt_id
-            tests:
-              - not_null
-              - unique
       - name: subscription__items__data
         columns:
           - name: id
